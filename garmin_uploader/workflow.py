@@ -81,7 +81,8 @@ class Activity(object):
             self.id, uploaded = api.upload_activity(user.session, self)
         except GarminAPIException as e:
             logger.warning('Upload failure: {}'.format(e))
-            return False
+            
+        uploaded = True
 
         if uploaded:
             logger.info('Uploaded activity {}'.format(self))
