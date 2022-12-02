@@ -170,10 +170,11 @@ class GarminAPI:
             "file": (activity.filename, activity.open()),
         }
         url = '{}/{}'.format(URL_UPLOAD, activity.extension)
+
         res = session.post(url, files=files, headers=self.common_headers)
 
         # HTTP Status can either be OK or Conflict
-        if res.status_code not in (200, 201, 409):
+        if res.status_code not in (200, 201, 409, 202):
             if res.status_code == 412:
                 logger.error('You may have to give explicit consent for uploading files to Garmin')  # noqa
             raise GarminAPIException('Failed to upload {}'.format(activity))
@@ -187,6 +188,17 @@ class GarminAPI:
                 else:
                     raise GarminAPIException(response["failures"][0]["messages"])  # noqa
             else:
+                # Just a dirty hotfix => try to reupload => 202 => we have internalId
+                files = {
+                    "file": (activity.filename, activity.open()),
+                }
+                url = '{}/{}'.format(URL_UPLOAD, activity.extension)
+                res = session.post(url, files=files, headers=self.common_headers)
+                response = res.json()['detailedImportResult']
+                if response["failures"][0]["messages"][0]['code'] == 202:
+                    # Activity already exists
+                    return response["failures"][0]["internalId"], True
+
                 raise GarminAPIException('Unknown error: {}'.format(response))
         else:
             # Upload was successsful
