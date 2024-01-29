@@ -172,7 +172,7 @@ class GarminAPI:
         url = '{}/{}'.format(URL_UPLOAD, activity.extension)
 
         res = session.post(url, files=files, headers=self.common_headers)
-
+        logger.debug('Upload activity status code {}'.format(res.status_code))
         # HTTP Status can either be OK or Conflict
         if res.status_code not in (200, 201, 409, 202):
             if res.status_code == 412:
