@@ -10,9 +10,9 @@ URL_PROFILE = 'https://connect.garmin.com/modern/currentuser-service/user/info' 
 URL_HOST_SSO = 'sso.garmin.com'
 URL_HOST_CONNECT = 'connect.garmin.com'
 URL_SSO_SIGNIN = 'https://sso.garmin.com/sso/signin'
-URL_UPLOAD = 'https://connect.garmin.com/modern/proxy/upload-service/upload'
-URL_ACTIVITY_BASE = 'https://connect.garmin.com/modern/proxy/activity-service/activity'  # noqa
-URL_ACTIVITY_TYPES = 'https://connect.garmin.com/modern/proxy/activity-service/activity/activityTypes' # noqa
+URL_UPLOAD = 'https://connect.garmin.com/modern/upload-service/upload'
+URL_ACTIVITY_BASE = 'https://connect.garmin.com/modern/activity-service/activity'  # noqa
+URL_ACTIVITY_TYPES = 'https://connect.garmin.com/modern/activity-service/activity/activityTypes' # noqa
 
 
 class GarminAPIException(Exception):
